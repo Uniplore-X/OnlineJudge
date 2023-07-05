@@ -21,8 +21,12 @@ logger = logging.getLogger(__name__)
 
 class CheckLoginAPI(APIView):
     @login_required
-    def post(self, request, **kwargs):
-        return self.success("logined")
+    def get(self, request, **kwargs):
+        relogin = request.data['relogin'] == 'true' if 'relogin' in request.data else False
+        if relogin:
+            auth.logout(request)
+            return self.error('Please login for relogin')
+        return self.success('logined')
 
 
 class RedirectWPLoginPageAPI(APIView):

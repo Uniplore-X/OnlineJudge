@@ -106,8 +106,13 @@ class WPLoginAPI(APIView):
                 logger.debug('user info: ' + response.text)
                 userinfo_result = response.json()
                 user_openid = userinfo_result['ID']
+
                 user_name = userinfo_result['display_name'] if 'display_name' in userinfo_result else userinfo_result[
-                    'user_nicename']
+                    'nickname']
+                if 'firstname' in userinfo_result and 'last_name' in userinfo_result:
+                    real_name = userinfo_result['firstname'] + userinfo_result['last_name']
+                else:
+                    real_name = user_name
                 user_email = userinfo_result['user_email'] if 'user_email' in userinfo_result else None
                 is_super_admin = False
                 is_admin = False
@@ -137,7 +142,7 @@ class WPLoginAPI(APIView):
                         user.admin_type = AdminType.REGULAR_USER
                         user.problem_permission = ProblemPermission.OWN
                     user.save()
-                    UserProfile.objects.create(user=user)
+                    UserProfile.objects.create(user=user, real_name=real_name)
                 else:
                     user.username = user_name
                     user.email = user_email

@@ -1,6 +1,7 @@
 from utils.shortcuts import get_env
 
-
+labplore_home_url = get_env("labplore_home_url", "https://labplore.com/")
+labplore_home_title = get_env("labplore_home_title", "Labplore")
 wp_oauth2_authorize_uri = get_env("wp_oauth2_authorize_uri", "https://labplore.com/oauth/authorize")
 wp_oauth2_token_uri = get_env("wp_oauth2_token_uri", "https://labplore.com/oauth/token")
 wp_oauth2_userinfo_uri = get_env("wp_oauth2_userinfo_uri", "https://labplore.com/oauth/me")

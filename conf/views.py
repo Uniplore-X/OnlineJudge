@@ -28,6 +28,7 @@ from .serializers import (CreateEditWebsiteConfigSerializer,
                           CreateSMTPConfigSerializer, EditSMTPConfigSerializer,
                           JudgeServerHeartbeatSerializer,
                           JudgeServerSerializer, TestSMTPConfigSerializer, EditJudgeServerSerializer)
+from labplore import config as labplore_config
 
 
 class SMTPAPI(APIView):
@@ -92,6 +93,10 @@ class WebsiteConfigAPI(APIView):
         ret = {key: getattr(SysOptions, key) for key in
                ["website_base_url", "website_name", "website_name_shortcut",
                 "website_footer", "allow_register", "submission_list_show_all"]}
+
+        ret['labplore_home_url'] = labplore_config.labplore_home_url
+        ret['labplore_home_title'] = labplore_config.labplore_home_title
+
         return self.success(ret)
 
     @super_admin_required
